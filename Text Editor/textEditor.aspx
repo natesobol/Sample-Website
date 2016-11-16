@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="transfer.aspx.cs" Inherits="teleprompter" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="textEditor.aspx.cs" Inherits="textEditor" %>
 
 <!DOCTYPE html>
 
@@ -10,14 +10,13 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:Label ID="Label1" runat="server" Text="Enter text here:"></asp:Label>
-    
         <asp:FileUpload ID="FileUpload1" runat="server" />
     
     </div>
-        <asp:TextBox ID="input" TextMode="MultiLine" runat="server" Height="286px" Width="327px"></asp:TextBox>
+        <asp:TextBox ID="ContentsTextBox" TextMode="MultiLine" runat="server" Height="286px" Width="327px"></asp:TextBox>
         <p>
             <asp:Button ID="startButton" runat="server" OnClick="startButton_Click" Text="Start" />
+            <asp:Label ID="Label1" runat="server"></asp:Label>
         </p>
     </form>
 </body>
