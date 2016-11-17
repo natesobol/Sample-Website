@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -16,9 +17,10 @@ public partial class textEditor : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        downloadButton.Visible = false;
         // Initializes textbox
         ContentsTextBox.TextMode = TextBoxMode.MultiLine;
-        ContentsTextBox.ReadOnly = true;
+        //ContentsTextBox.ReadOnly = true;
         ContentsTextBox.Text = "";
 
     }
@@ -51,13 +53,13 @@ public partial class textEditor : System.Web.UI.Page
                 {
 
                     // Sets file attribute
-                    File.SetAttributes(path + FileUpload1.FileName, FileAttributes.Temporary);
+                    File.SetAttributes(path + FileUpload1.FileName, FileAttributes.Normal);
 
                     // Uploads file to server and sends contents to a textbox
                     DisplayFileContents(FileUpload1.PostedFile);
-
+                    downloadButton.Visible = true;
                     // Cleanup
-                    File.Delete(path + FileUpload1.FileName);
+                    
                 }
                 catch (Exception ex2)
                 {
@@ -80,7 +82,7 @@ public partial class textEditor : System.Web.UI.Page
 
         // Get the length of the file.
         fileLen = FileUpload1.PostedFile.ContentLength;
-        Label1.Text = "The length of the file is " + fileLen.ToString() + " bytes.";
+        byteLabel.Text = "The length of the file is " + fileLen.ToString() + " bytes.";
 
         // Create a byte array to hold the contents of the file.
         Byte[] Input = new Byte[fileLen];
@@ -101,5 +103,28 @@ public partial class textEditor : System.Web.UI.Page
 
         // Converts file text from decimal to ascii
         ContentsTextBox.Text = System.Text.Encoding.ASCII.GetString(Input);
+    }
+
+    protected void downloadButton_Click(object sender, EventArgs e)
+    {
+        String path = Server.MapPath("~/Uploaded Files/");
+        String ftpserver = "ftp://nsobol.com/httpdocs/Uploaded%20Files/test.txt";
+
+        try
+        {
+            FtpWebRequest reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpserver));
+            reqFTP.Credentials = new NetworkCredential("appuser", "Password");
+            FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
+
+            Stream responseStream = response.GetResponseStream();
+        }
+        catch(Exception ex)
+        {
+            Label1.Text = "Couldn't download File: " + ex;
+        }
+        Label1.Text = "Downloaded File!";
+
+        File.Delete(path + FileUpload1.FileName);
+
     }
 }

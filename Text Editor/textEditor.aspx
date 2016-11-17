@@ -9,15 +9,21 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
-        <asp:FileUpload ID="FileUpload1" runat="server" />
-    
+        <h2>Text Editor<br /></h2>
+        <h4>Upload a txt file to get started! <br /></h4>
     </div>
+    <div>
+        <asp:FileUpload ID="FileUpload1" runat="server" /> <br /><br />
+    </div>
+    <div>
+        <asp:Label ID="byteLabel" runat="server"></asp:Label><br />
         <asp:TextBox ID="ContentsTextBox" TextMode="MultiLine" runat="server" Height="286px" Width="327px"></asp:TextBox>
         <p>
             <asp:Button ID="startButton" runat="server" OnClick="startButton_Click" Text="Start" />
             <asp:Label ID="Label1" runat="server"></asp:Label>
+            <asp:Button ID="downloadButton" runat="server" Text="Download" OnClick="downloadButton_Click" />
         </p>
+    </div>
     </form>
 </body>
 </html>
